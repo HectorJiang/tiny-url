@@ -27,7 +27,6 @@ impl ApiAddLink{
 
 #[post("/create")]
 async fn create_link(link: Json<ApiAddLink>) -> impl Responder{
-    println!("{:?}", link);
     let new_link = link.0.to_new_link();
     let new_code = new_link.tiny_code.clone();
     Json(ApiResult::success(Some(new_code)))
@@ -47,8 +46,14 @@ async fn get_from_link(path: Path<String>) -> impl Responder{
 #[get("/links")]
 async fn get_all_links() -> impl Responder {
     let mut links = Vec::new();
-    links.push(Link { tiny_code: String::from("111"), origin_url: String::from("https://baidu.com") });
+    links.push(Link { tiny_code: String::from("111"), origin_url: String::from("https://baidufafa.com") });
     links.push(Link { tiny_code: String::from("222"), origin_url: String::from("https://google.com") });
     Json(ApiResult::success(Some(links)))
+    // HttpResponse::Ok().json(ApiResult::success(Some(links)))
 }
 
+#[get("/")]
+async fn test() -> impl Responder {
+    log::debug!("test");
+    HttpResponse::Ok().body("Hello world!")
+}
